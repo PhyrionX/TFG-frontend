@@ -1,0 +1,46 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+
+html {
+  background-image: url('./assets/images/communication.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+html, body, #index {
+  height: 100%;
+  margin: 0;
+  background-color: unset;
+}
+
+.main {
+  margin-top: 50px; /* Add a top margin to avoid content overlay */
+  overflow: scroll;
+  height: calc(100% - 50px);
+}
+
+$width-login: 400px;
+
+.tfg-login-page {
+  display: flex;
+  flex-direction: column;  /* make main axis vertical */
+  justify-content: center; /* center items vertically, in this case */
+  align-items: center; 
+  height: 100%;
+}
+
+.tfg-login {
+  display: flex;
+  flex-direction: column;  /* make main axis vertical */
+  justify-content: center; /* center items vertically, in this case */
+  background-color: rgba(255,255,255, 1);
+  padding: 15px 20px;
+  border-radius: 15px;
+  // position: fixed;
+  width: $width-login;
+  // top: calc(50% - 100px);
+  // left: calc(50% - 200px);
+  .tfg-buttons {
+    display: flex;
+    justify-content: space-between
+  }
+}
