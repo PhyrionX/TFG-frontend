@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { HashRouter as Router, Route, Link } from "react-router-dom";
-import { Header } from '../components/header'
+import { Header } from '../components/header';
+import { getAuth } from '../services/authentication';
 import Login from './login';
 import Signup from './signup';
 
@@ -15,6 +16,7 @@ function Index() {
   useEffect(() => {
     console.log('render!')
   }, [])
+
 
   return (
     <div>
@@ -58,9 +60,19 @@ function Users() {
 
 export const App = props => {
   const [test, setTest] = useState(3)
+  
+  useEffect(() => {
+    console.log('mounted');
+    // getAuth();
+  }, []);
+
+  function testFunc() {
+    setTest(test + 1);
+  }
 
   return (
       <Router>
+        <button onClick={ testFunc }>hi { test }</button>
           {
             true ? (
             <Router>

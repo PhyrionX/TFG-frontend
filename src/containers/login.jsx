@@ -2,16 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 export default function Login() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    document.title = `You clicked ${count} times`;
-  });
-
-  useEffect(() => {
-    console.log('render!')
-  }, [])
-
   return (
     <div className="tfg-login-page">
       <form className="tfg-login">
