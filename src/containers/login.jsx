@@ -27,7 +27,7 @@ export default function Login() {
     
     login(loginForm)
       .then(({ data }) => {
-        console.log(data);
+        console.log(data.token, data.username, data.email);
         
         localStorageService.setAuth(data.token, data.username, data.email);
           

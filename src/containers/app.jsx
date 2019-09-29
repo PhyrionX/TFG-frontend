@@ -8,6 +8,8 @@ import Signup from './signup';
 import localStorageService from '../services/localStorage';
 import { AUTH_CONSTANTS } from '../reducers/auth';
 import Logout from './logout';
+import Dashboard from './dashboard';
+import { Sidebar } from '../components/sidebar';
 
 function Index() {
   const [count, setCount] = useState(0);
@@ -74,7 +76,7 @@ export const App = props => {
 
   useEffect(() => {
     const { token, user, email } = localStorageService.getAuth();
-
+    
     if (token) {
       dispatch({ 
         type: AUTH_CONSTANTS.SET_AUTH,
@@ -84,8 +86,6 @@ export const App = props => {
           email
         }})
     }
-
-    // getAuth();
   }, []);
 
   function testFunc() {
@@ -94,26 +94,28 @@ export const App = props => {
 
   return (
       <Router>
-          {
-            !auth ? (
-              <React.Fragment>
-                <Route path="/" exact component={ Login }/>
-                <Route path="/signup" component={ Signup }/>
-                <Route component={ NotFound }/>
-              </React.Fragment>
-              ) : (
-              <React.Fragment>
-                <Header prueba={ test } />
+        {
+          !auth ? (
+            <React.Fragment>
+              <Route path="/" exact component={ Login }/>
+              <Route path="/signup" component={ Signup }/>
+              <Route component={ NotFound }/>
+            </React.Fragment>
+            ) : (
+            <React.Fragment>
+              <Header prueba={ test } />
+              <div className="cont">
+                <Sidebar />
                 <div className="main">
-                  <button onClick={ () => setTest(test + 1) }>mmm</button>
-                    <Route path="/" exact component={Index} />
-                    <Route path="/counter/" component={Counter} />
-                    <Route path="/users/" component={Users} />  
-                    <Route path="/logout" component={Logout} />      
+                  <Route path="/" exact component={Dashboard} />
+                  <Route path="/counter/" component={Counter} />
+                  <Route path="/users/" component={Users} />  
+                  <Route path="/logout" component={Logout} />      
                 </div>
-              </React.Fragment>
-            )
-          }
+              </div>
+            </React.Fragment>
+          )
+        }
       </Router>
   )
 }

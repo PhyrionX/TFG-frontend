@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 let LocalStorageService = function() {
-  this.setAuth = function(token, user) {
+  this.setAuth = function(token, user, email) {
     localStorage.setItem('tfg-access-token', token);
     localStorage.setItem('tfg-user', user);
-    localStorage.setItem('tfg-email', user);
+    localStorage.setItem('tfg-email', email);
   }
 
   this.deleteAuth = function() {
@@ -21,7 +21,7 @@ let LocalStorageService = function() {
     return { 
       token: localStorage.getItem('tfg-access-token'),
       user: localStorage.getItem('tfg-user'),
-      email: localStorage.getItem('tfg-mail')
+      email: localStorage.getItem('tfg-email')
     }
   }
 }
