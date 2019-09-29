@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAuth, signUp } from '../services/authentication';
 import Input from '../components/commons/input';
 import { AUTH_CONSTANTS } from '../reducers/auth';
+import localStorageService from '../services/localStorage';
 
 export default function Signup() {
   const dispatch = useDispatch();
@@ -41,16 +42,21 @@ export default function Signup() {
     if (Object.values(errors).filter(err => err === true).length === 0) {
       signUp(registerForm)
         .then(({ data }) => {
+          localStorageService.setAuth(data.token, data.username, data.email);
+          
           dispatch({ 
             type: AUTH_CONSTANTS.SET_AUTH,
             payload: {
               token: data.token,
-              user: data.user
+              user: data.user,
+              email: data.email
             }})
+          
+          window.location.assign('/');
         })
         .catch(err => {
           console.log(err)
-        });
+        }); 
     }
   }
 

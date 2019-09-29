@@ -2,9 +2,7 @@ import React, { useEffect } from 'react'
 import './header.scss'
 
 export const Header = ({ prueba }) => {
-  useEffect(() => {
-    console.log(prueba);
-    
+  useEffect(() => {    
   }, [prueba])
 
   return (

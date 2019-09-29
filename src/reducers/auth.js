@@ -1,10 +1,12 @@
 export const authInitialState = {
   token: '',
-  user: ''
+  user: '',
+  email: ''
 }
 
 export const  AUTH_CONSTANTS = {
-  SET_AUTH: 'SET_AUTH'
+  SET_AUTH: 'SET_AUTH',
+  LOGOUT: 'LOGOUT'
 }
 
 
@@ -13,8 +15,11 @@ const authReducer = (state = authInitialState, action) => {
     case AUTH_CONSTANTS.SET_AUTH:
       return {
         token: action.payload.token,
-        user: action.payload.user
+        user: action.payload.user,
+        email: action.payload.user
       }
+    case AUTH_CONSTANTS.LOGOUT:
+      return authInitialState
   }
 
   return state;
