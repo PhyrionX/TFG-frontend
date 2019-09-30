@@ -20,6 +20,7 @@ html, body, #index {
   overflow-y: scroll;
   height:100%;
   width: 100%;
+  padding: 15px 15px 0 15px;
 }
 
 $width-login: 400px;
@@ -46,5 +47,23 @@ $width-login: 400px;
   .tfg-buttons {
     display: flex;
     justify-content: space-between
+  }
+}
+
+.tfg-card {
+ 
+
+  &__heading {
+    border-radius: 10px 10px 0 0;
+    padding: 10px 20px;
+    background-color: #c0c0c0;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  &__body {
+    padding: 10px 20px;
+    background-color: white;
   }
 }

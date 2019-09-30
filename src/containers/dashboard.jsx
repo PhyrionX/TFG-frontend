@@ -6,7 +6,8 @@ export default function Dashboard() {
   const idUser = useSelector(state => state.auth.email)
 
   useEffect(() => {
-    getAuth(idUser);
+    getAuth(idUser)
+      .then(({ data }) => console.log(data));
   }, []);
 
   

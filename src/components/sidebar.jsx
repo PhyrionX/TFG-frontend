@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import './sidebar.scss'
+import { NavLink } from "react-router-dom";
+import './sidebar.scss';
 
 export const Sidebar = ({ prueba }) => {
   useEffect(() => {    
@@ -7,7 +8,28 @@ export const Sidebar = ({ prueba }) => {
 
   return (
     <div className="sidebar">
-      aa
+      <ul>
+        <NavLink to="/">
+          <li>
+            Home
+          </li>
+         </NavLink>
+        <NavLink to="/">
+          <li>
+            Home
+          </li>
+         </NavLink>
+        <NavLink to="/">
+          <li>
+            Home
+          </li>
+         </NavLink>
+        <NavLink to="/configuration">
+          <li>
+            Configuration
+          </li>
+         </NavLink>
+      </ul>
     </div>
   )
 }

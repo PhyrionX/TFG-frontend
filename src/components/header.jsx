@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
+import { Link } from "react-router-dom";
 import './header.scss'
 
 export const Header = ({ prueba }) => {
@@ -6,6 +7,8 @@ export const Header = ({ prueba }) => {
   }, [prueba])
 
   return (
-    <nav className="navbar"></nav>
+    <nav className="navbar">
+      SocialAnalitycs<Link to="/logout">Logout</Link>
+    </nav>
   )
 }

@@ -10,6 +10,7 @@ import { AUTH_CONSTANTS } from '../reducers/auth';
 import Logout from './logout';
 import Dashboard from './dashboard';
 import { Sidebar } from '../components/sidebar';
+import Configuration from './configuration';
 
 function Index() {
   const [count, setCount] = useState(0);
@@ -108,9 +109,7 @@ export const App = props => {
                 <Sidebar />
                 <div className="main">
                   <Route path="/" exact component={Dashboard} />
-                  <Route path="/counter/" component={Counter} />
-                  <Route path="/users/" component={Users} />  
-                  <Route path="/logout" component={Logout} />      
+                  <Route path="/configuration" component={Configuration} />
                 </div>
               </div>
             </React.Fragment>
