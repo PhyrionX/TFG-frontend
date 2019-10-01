@@ -1,7 +1,7 @@
 import requestService from "./request";
 
-export function getAuth(id) {
-  return requestService.http.get('http://localhost:8081/api/user/' + id);
+export function getAuth() {
+  return requestService.http.get('http://localhost:8081/api/user');
 }
 
 export function signUp(signUpInfo) {

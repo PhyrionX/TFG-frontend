@@ -100,6 +100,7 @@ export const App = props => {
             <React.Fragment>
               <Route path="/" exact component={ Login }/>
               <Route path="/signup" component={ Signup }/>
+              <Route path="/logout" component={ Logout }/>
               <Route component={ NotFound }/>
             </React.Fragment>
             ) : (
@@ -110,6 +111,7 @@ export const App = props => {
                 <div className="main">
                   <Route path="/" exact component={Dashboard} />
                   <Route path="/configuration" component={Configuration} />
+                  <Route path="/logout" component={ Logout }/>
                 </div>
               </div>
             </React.Fragment>
