@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getAuth } from '../services/authentication';
-import Card from '../components/card/input';
+import Card from '../components/card/Card';
 
 export default function Configuration() {
   const user = useSelector(state => state.auth.email);

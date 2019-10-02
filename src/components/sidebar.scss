@@ -1,8 +1,8 @@
 .sidebar {
-  background-color:  WhiteSmoke;
+  background-color:  white;
   width: 200px;
-  border-right: 4px solid #404040;
-
+  box-shadow: 1px 0 20px rgba(0,0,0,.08);
+  
   ul {
     list-style-type:none;
     padding: 0;
@@ -14,7 +14,6 @@
 
     li {
       padding: 5px 10px;
-      border-bottom: 2px solid #404040;
       cursor: pointer;
 
       &:hover {

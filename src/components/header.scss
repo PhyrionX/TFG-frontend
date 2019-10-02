@@ -1,12 +1,11 @@
 .navbar {
   overflow: hidden;
-  background-color:  WhiteSmoke;
-  border-bottom: 4px solid #404040;
+  background: #2962FF;
   position: fixed; /* Set the navbar to fixed position */
   top: 0; /* Position the navbar at the top of the page */
   width: 100%; /* Full width */
   height: 50px;
-  color: #404040;
+  color: white;
   display: flex;
   justify-content: space-between;
 }
