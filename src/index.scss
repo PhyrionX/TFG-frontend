@@ -51,17 +51,8 @@ $width-login: 400px;
   }
 }
 
-.tfg-card {
-  background-color: white;
-  margin-bottom: 20px;
-  
-  &__heading {
-     padding: 10px 20px;
-    font-size: 22px;
-    font-weight: 700;
-  }
-
-  &__body {
-    padding: 10px 20px;
-  }
+.tfg-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }

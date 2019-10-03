@@ -19,22 +19,32 @@ export default function Dashboard() {
    if (event.target.value) {
     getSuggestions(event.target.value)
       .then(({data}) => {  
-        console.log(data);
-         
         setSuggestions(data.result);
       })
    }
   }
-  console.log(suggestions);
-  
+
+  function handleGetInfoOfAcount(screenName) {
+    getFiendTimeline(screenName)
+      .then(({data}) => {
+        console.log(data);
+      })
+
+  }
+
   return <React.Fragment>
     <Card content={ 
       <Input onKeyPress={ handleOnKeyPress }/>
      }/>
-    <Card title={ search } content={
-      suggestions.length > 0 && (<ul>
-        { suggestions.map((suggest, index) => <li key={ index }>{suggest.screen_name}</li>) }
-      </ul>) 
-    }/>
+    
+    { suggestions.length > 0 && (<div className="tfg-grid ">
+        { suggestions.map((suggest, index) => (
+            <Card infoProfileCard
+                onClick={ () => handleGetInfoOfAcount(suggest.screen_name) }
+                key={ index }
+                title={suggest.screen_name} />) 
+          ) }
+      </div>)
+    }
   </React.Fragment>
 }

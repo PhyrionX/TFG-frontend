@@ -1,0 +1,20 @@
+.tfg-card {
+  background-color: white;
+  margin-bottom: 20px;
+  
+  &.infoProfileCard {
+    width: 250px;
+    cursor: pointer;
+    // height: 100px
+  }
+  
+  &__heading {
+     padding: 10px 20px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  &__body {
+    padding: 10px 20px;
+  }
+}
