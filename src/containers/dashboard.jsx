@@ -9,42 +9,42 @@ export default function Dashboard() {
   const [suggestions, setSuggestions] = useState([]);
   const [search, setSearch] = useState('');
   useEffect(() => {
-    
+
     // getFiendTimeline('realmadrid');
-  },[])
+  }, [])
 
   function handleOnKeyPress(event) {
     setSearch(event.target.value);
 
-   if (event.target.value) {
-    getSuggestions(event.target.value)
-      .then(({data}) => {  
-        setSuggestions(data.result);
-      })
-   }
+    if (event.target.value) {
+      getSuggestions(event.target.value)
+        .then(({ data }) => {
+          setSuggestions(data.result);
+        })
+    }
   }
 
   function handleGetInfoOfAcount(screenName) {
     getFiendTimeline(screenName)
-      .then(({data}) => {
-        console.log(data);
+      .then(({ data }) => {
+        window.location.assign(`#/results/${ data._id }`)
       })
 
   }
 
   return <React.Fragment>
-    <Card content={ 
-      <Input onKeyPress={ handleOnKeyPress }/>
-     }/>
-    
-    { suggestions.length > 0 && (<div className="tfg-grid ">
-        { suggestions.map((suggest, index) => (
-            <Card infoProfileCard
-                onClick={ () => handleGetInfoOfAcount(suggest.screen_name) }
-                key={ index }
-                title={suggest.screen_name} />) 
-          ) }
-      </div>)
+    <Card content={
+      <Input onKeyPress={handleOnKeyPress} />
+    } />
+
+    {suggestions.length > 0 && (<div className="tfg-grid ">
+      {suggestions.map((suggest, index) => (
+        <Card infoProfileCard
+          onClick={() => handleGetInfoOfAcount(suggest.screen_name)}
+          key={index}
+          title={suggest.screen_name} />)
+      )}
+    </div>)
     }
   </React.Fragment>
 }

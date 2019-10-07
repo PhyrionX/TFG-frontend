@@ -113,6 +113,7 @@ export const App = props => {
                   <Route path="/" exact component={Dashboard} />
                   <Route path="/history" component={History} />
                   <Route path="/configuration" component={Configuration} />
+                  <Route path="/results/:idSearch" />
                   <Route path="/logout" component={ Logout }/>
                 </div>
               </div>

@@ -33,6 +33,7 @@
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "build-tools-webpack-files": "^1.1.0",
+    "moment": "^2.24.0",
     "react": "^16.9.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.9.0",

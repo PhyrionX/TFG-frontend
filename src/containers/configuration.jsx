@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getAuth } from '../services/authentication';
 import Card from '../components/card/Card';
+import Table from '../components/commons/table';
 
 export default function Configuration() {
   const user = useSelector(state => state.auth.email);
@@ -22,24 +23,23 @@ export default function Configuration() {
           <button type="submit" className="btn btn-primary pull-right" >Login with Twitter</button>
         </form>
         <br />
-        <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Id Twitter</th>
-            <th scope="col">Screen Name</th>
-            <th scope="col">Information</th>
-          </tr>
-        </thead>
-        <tbody>
-          { cuentas.map((cuenta, index) => (
-            <tr key={ index }>
-              <td>{ cuenta.id_twitter }</td>
-              <td>{ cuenta.cuenta }</td>
-              <td>{ cuenta.info }</td>
-            </tr>
-          )) }
-        </tbody>
-      </table>
+        <Table columns={
+            [
+              {
+                key: 'id_twitter',
+                label: 'Id Twitter'
+              },
+              {
+                key: 'cuenta',
+                label: 'Screen Name'
+              },
+              {
+                key: 'info',
+                label: 'Information'
+              }
+            ]
+          }
+          data={ cuentas } />
       </React.Fragment>
     ) } />
   </div>

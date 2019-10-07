@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getSuggestions, getFiendTimeline, getHistory } from '../services/twitterService';
 import Card from '../components/card/Card';
+import Table from '../components/commons/table';
 
 export default function History() {
   const [history, setHistory] = useState([]);
@@ -12,27 +13,29 @@ export default function History() {
   },[])
 
   return <React.Fragment>
-    <Card title="Text title" content={ (
-      <table className="table">
-      <thead>
-        <tr>
-          <th scope="col">Id Twitter</th>
-          <th scope="col">Screen Name</th>
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        { history.reverse().map((row, index) => (
-          <tr key={ index }>
-            <td>{ row.id_twitter }</td>
-            <td>{ row.screen_name }</td>
-            <td>{ row.name }</td>
-            <td>{ row.description }</td>
-          </tr>
-        )) }
-      </tbody>
-    </table>
-    ) } />
+    <Card title="Text title" content={ 
+      <Table columns={
+          [
+            {
+              key: 'screen_name',
+              label: 'Screen Name'
+            },
+            {
+              key: 'name',
+              label: 'Name'
+            },
+            {
+              key: 'description',
+              label: 'Description'
+            },
+            {
+              key: 'date_of_search',
+              label: 'Date of search',
+              type: 'date'
+            }
+          ]
+        }
+          data={ history } />
+    } />
   </React.Fragment>
 }
