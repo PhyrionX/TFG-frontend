@@ -7,3 +7,7 @@ export function getSuggestions(search) {
 export function getFiendTimeline(search) {
   return requestService.http.get('http://localhost:8081/api/twitter/friend_timeline/' + search);
 }
+
+export function getHistory() {
+  return requestService.http.get('http://localhost:8081/api/history');
+}

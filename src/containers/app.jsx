@@ -11,6 +11,7 @@ import Logout from './logout';
 import Dashboard from './dashboard';
 import { Sidebar } from '../components/sidebar';
 import Configuration from './configuration';
+import History from './history';
 
 function Index() {
   const [count, setCount] = useState(0);
@@ -110,6 +111,7 @@ export const App = props => {
                 <Sidebar />
                 <div className="main">
                   <Route path="/" exact component={Dashboard} />
+                  <Route path="/history" component={History} />
                   <Route path="/configuration" component={Configuration} />
                   <Route path="/logout" component={ Logout }/>
                 </div>

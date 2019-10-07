@@ -14,14 +14,9 @@ export const Sidebar = ({ prueba }) => {
             Home
           </li>
          </NavLink>
-        <NavLink to="/">
+        <NavLink to="/history">
           <li>
-            Home
-          </li>
-         </NavLink>
-        <NavLink to="/">
-          <li>
-            Home
+            History
           </li>
          </NavLink>
         <NavLink to="/configuration">
