@@ -6,22 +6,28 @@ import Card from '../components/card/Card';
 import Input from '../components/commons/input';
 import InfoProfileCard from '../components/card/info-profile-card';
 
+const AT = 64;
+
 export default function Dashboard() {
   const [suggestions, setSuggestions] = useState([]);
-  const [search, setSearch] = useState('');
+
   useEffect(() => {
 
     // getFiendTimeline('realmadrid');
   }, [])
 
   function handleOnKeyPress(event) {
-    setSearch(event.target.value);
-
-    if (event.target.value) {
-      getSuggestions(event.target.value)
-        .then(({ data }) => {
-          setSuggestions(data.result);
-        })
+    const {value} = event.target;
+    
+    if (value) {
+      if (value.charCodeAt(0) === AT) {
+        handleGetInfoOfAcount(value.substring(1))
+      } else {
+        getSuggestions(value)
+          .then(({ data }) => {
+            setSuggestions(data.result);
+          })
+      }
     }
   }
 
@@ -34,18 +40,15 @@ export default function Dashboard() {
   }
 
   return <React.Fragment>
-    <Card content={
-      <Input onKeyPress={handleOnKeyPress} />
-    } />
+      <Input placeholder="Search twitter account..." onKeyPress={handleOnKeyPress} />
 
-    {suggestions.length > 0 && (<div className="tfg-grid ">
-      {suggestions.map((suggest, index) => (
-        <InfoProfileCard infoProfileCard
-          onClick={() => handleGetInfoOfAcount(suggest.screen_name)}
-          key={index}
-          info={ suggest } />)
-      )}
-    </div>)
-    }
+      {suggestions.length > 0 && (<div className="tfg-grid ">
+        {suggestions.map((suggest, index) => (
+          <InfoProfileCard infoProfileCard
+            onClick={() => handleGetInfoOfAcount(suggest.screen_name)}
+            key={index}
+            info={ suggest } />)
+        )}
+      </div>)}
   </React.Fragment>
 }
