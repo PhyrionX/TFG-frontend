@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getAuth } from '../services/authentication';
-import { getSuggestions, getFiendTimeline } from '../services/twitterService';
+import { getSuggestions, getFriendTimeline } from '../services/twitterService';
 import Card from '../components/card/Card';
 import Input from '../components/commons/input';
+import InfoProfileCard from '../components/card/info-profile-card';
 
 export default function Dashboard() {
   const [suggestions, setSuggestions] = useState([]);
@@ -25,7 +26,7 @@ export default function Dashboard() {
   }
 
   function handleGetInfoOfAcount(screenName) {
-    getFiendTimeline(screenName)
+    getFriendTimeline(screenName)
       .then(({ data }) => {
         window.location.assign(`#/results/${ data._id }`)
       })
@@ -39,10 +40,10 @@ export default function Dashboard() {
 
     {suggestions.length > 0 && (<div className="tfg-grid ">
       {suggestions.map((suggest, index) => (
-        <Card infoProfileCard
+        <InfoProfileCard infoProfileCard
           onClick={() => handleGetInfoOfAcount(suggest.screen_name)}
           key={index}
-          title={suggest.screen_name} />)
+          info={ suggest } />)
       )}
     </div>)
     }

@@ -1,0 +1,62 @@
+.tfg-info-profile-card {
+  background-color: white;
+  margin-bottom: 20px;
+  width: 450px;
+  box-shadow: 1px 0 20px rgba(0,0,0,.08);
+  cursor: pointer;
+
+  &__content {
+    display: flex;
+  }
+
+  &__image-wrapper {
+    display: flex;
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;
+    width: 15%;
+  }
+
+  &__content-wrapper {
+    width: 85%;
+    padding-bottom: 5px;
+  }
+
+  &__body {
+    height: 100px;
+    overflow: hidden;
+  }
+
+  &__image {
+    border-radius: 50%;
+  }
+
+  &__heading {
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+
+    &-name {
+      font-size: 19px;
+      font-weight: 700; 
+    }
+
+    &-screen-name {
+      font-size: 15px;
+      color: rgb(136, 153, 166);
+      padding-left: 5px;
+    }
+  }
+
+  &__body {
+    padding: 5px 20px;
+  }
+
+  &__footer {
+    border-top: solid 1px rgb(203, 209, 213);
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+  }
+}
