@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import './table.scss';
 
-export default function Table({ columns, data }) {
+export default function Table({ columns, data, onRowClick }) {
   function renderTd(type, value) {
     let rend = '';
     switch (type) {
@@ -16,7 +17,7 @@ export default function Table({ columns, data }) {
   }
 
   return (
-    <table className="table">
+    <table className="table tfg-table">
       <thead>
         <tr>
           { columns.map((column, index) => 
@@ -27,7 +28,7 @@ export default function Table({ columns, data }) {
         { data && data.map((row, index) =>
             <tr key={ index }>
               { columns.map((column, indexCol) =>
-                  <td key={ indexCol + index }>{ renderTd(column.type, row[column.key]) }</td>) }
+                  <td className={ `${ onRowClick ? 'tfg-table__td--clickable' : '' }` } key={ indexCol + index } onClick={ () => onRowClick && onRowClick(row) }>{ renderTd(column.type, row[column.key]) }</td>) }
             </tr>) }
       </tbody>
     </table>

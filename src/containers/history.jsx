@@ -9,7 +9,7 @@ export default function History() {
   useEffect(() => {
     getHistory()
       .then(({data}) => setHistory(data))
-      .then((err) => console.log(err));
+      .catch((err) => console.log(err));
   },[])
 
   return <React.Fragment>
@@ -35,7 +35,8 @@ export default function History() {
             }
           ]
         }
-          data={ history } />
+        onRowClick={ (row) => window.location.assign(`#/results/${ row._id }`) }  
+        data={ history } />
     } />
   </React.Fragment>
 }
