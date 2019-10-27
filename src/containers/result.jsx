@@ -95,8 +95,8 @@ export default function Result(props) {
       dateEnd: tweet.tweets.length > 0 &&  tweet.tweets[0].created_at
     });
 
-    analitycsTweets.userMentionsGrouped = analitycsTweets.userMentions.reduce(groupCount, {});
-    analitycsTweets.hashtagsGrouped = analitycsTweets.hashtags.reduce(groupCount, {});
+    analitycsTweets.userMentionsGrouped = analitycsTweets.userMentions.reduce(groupCount2, []);
+    analitycsTweets.hashtagsGrouped = analitycsTweets.hashtags.reduce(groupCount2, []);
 
     return analitycsTweets;
   }
@@ -105,6 +105,11 @@ export default function Result(props) {
     acc[curr] = (acc[curr] || 0) + 1;
       
     return acc;
+  }
+
+  function groupCount2(acc, curr) {
+    return !acc.find((el) => el.value === curr) ? [...acc, { value: curr, count: 1 }]
+    : acc.map((el) => el.value === curr ? { ...el, count: el.count + 1 } : el);
   }
 
   console.log(savedTweet.tweets && savedTweet.tweets, savedTweet.state);

@@ -1,0 +1,37 @@
+.tfg-labelled-value-list {
+  list-style-type:none;
+  display: flex;
+  justify-content: space-between;
+  align-content: space-between;
+  flex-wrap: wrap ;
+  padding-left: 0;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 175px;
+    background-color: white;
+    margin-bottom: 20px;
+    box-shadow: 1px 0 20px rgba(0,0,0,.08);
+    padding: 5px 10px;
+    height: 75px;
+
+    i {
+      font-size: 24px;
+    }
+  }
+
+  &__body {
+    height: 100%;
+  }
+
+  &__heading {
+    font-size: 16px;
+  }
+
+  &__value {
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
