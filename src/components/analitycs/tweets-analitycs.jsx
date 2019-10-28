@@ -262,23 +262,25 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
             <div ref={targetRef}>
               <div className="tfg-tweets-analitycs__chart-buttons">
                 <div className="btn-group btn-group-toggle">
-                  <label 
+                  <label style={{ zIndex: 0 }}
                       className={ `btn btn-secondary ${ tweetsTimeChart === 'DAYS' ? 'active' : '' }` }
                       onClick={ () => setTweetsTimeChart('DAYS') }>
                     <input type="radio" checked  onChange={() => {}}/> Days
                   </label>
-                  <label className={ `btn btn-secondary ${ tweetsTimeChart === 'MONTHS' ? 'active' : '' }` }
+                  <label style={{ zIndex: 0 }}
+                      className={ `btn btn-secondary ${ tweetsTimeChart === 'MONTHS' ? 'active' : '' }` }
                       onClick={ () => setTweetsTimeChart('MONTHS') }>
                     <input type="radio" name="options" id="option2" onChange={() => {}}/> Months
                   </label>
                 </div>
                 <div className="btn-group btn-group-toggle">
-                  <label 
+                  <label style={{ zIndex: 0 }}
                       className={ `btn btn-secondary ${ tweetsTypeChart === 'LINE' ? 'active' : '' }` }
                       onClick={ () => setTweetsTypeChart('LINE') }>
                     <input type="radio" checked onChange={() => {}}/> Line
                   </label>
-                  <label className={ `btn btn-secondary ${ tweetsTypeChart === 'BAR' ? 'active' : '' }` }
+                  <label style={{ zIndex: 0 }}
+                      className={ `btn btn-secondary ${ tweetsTypeChart === 'BAR' ? 'active' : '' }` }
                       onClick={ () => setTweetsTypeChart('BAR') }>
                     <input type="radio" name="options" id="option2" onChange={() => {}}/> Bar
                   </label>
@@ -301,7 +303,7 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
                   </LineChart>
                 ) : (
                   <BarChart
-                  width={ widthOfCharts }
+                      width={ widthOfCharts }
                       height={400}
                       data={ newTweetsPerDay }
                       margin={{
@@ -351,10 +353,19 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
           isOpen={ showModal }
           contentLabel="Minimal Modal Example"
         >
-          <div>
-            <button onClick={() => setShowModal(false)}>Close Modal</button>
+          <div className="tfg-modal">
+            <div className="tfg-modal__heading">
+              <h3>Tweets Result</h3>
+              <i className="fas fa-times" onClick={() => setShowModal(false)} />
+            </div>
+            { modalData.map((el, index) => (
+              <ul className="tfg-tweets">
+                <li className="tfg-tweets__tweet" key={index}>
+                { el.text }
+                </li>
+              </ul>
+            ))}
           </div>
-          { modalData.map((el, index) => <div key={index}>{ el.text }</div>)}
         </ReactModal>
     </div>
   )

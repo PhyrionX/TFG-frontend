@@ -57,4 +57,23 @@ $width-login: 400px;
   flex-wrap: wrap;
 }
 
+.tfg-modal {
+  &__heading {
+    display: flex;
+    justify-content: space-between;
 
+    i {
+      font-size: 25px;
+      cursor: pointer;
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}
+
+.tfg-tweets {
+  display: flex;
+  list-style-type:none;
+}
