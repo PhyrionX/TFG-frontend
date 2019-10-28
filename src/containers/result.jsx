@@ -114,14 +114,16 @@ export default function Result(props) {
 
   console.log(savedTweet.tweets && savedTweet.tweets, savedTweet.state);
   
-  return loading ? 'Loading...' : (<div className="page-configuration">
-    <Card content={ (
-      <React.Fragment>
-        <img src={ savedSearch.profile_image_url } />
-        <h2>{ savedSearch.name }</h2>
-        <DetailList items={ itemsDetails } />
-      </React.Fragment>
-    ) }/>
-    <TweetsAnalitycs tweets={savedTweet} refreshTweetsData={ getTweetsData } />
+  return loading ? 'Loading...' : (<div className="tfg-page-result">
+      <div className="tfg-page-result__result1">
+        <Card content={ (
+          <React.Fragment>
+            <img src={ savedSearch.profile_image_url } />
+            <h2>{ savedSearch.name }</h2>
+            <DetailList items={ itemsDetails } />
+          </React.Fragment>
+        ) }/>
+        <TweetsAnalitycs tweets={savedTweet} refreshTweetsData={ getTweetsData } />
+      </div>
   </div>)
 }
