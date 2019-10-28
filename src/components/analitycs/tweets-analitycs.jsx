@@ -358,13 +358,18 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
               <h3>Tweets Result</h3>
               <i className="fas fa-times" onClick={() => setShowModal(false)} />
             </div>
-            { modalData.map((el, index) => (
-              <ul className="tfg-tweets">
-                <li className="tfg-tweets__tweet" key={index}>
-                { el.text }
-                </li>
-              </ul>
-            ))}
+            <ul className="tfg-tweets">
+              { modalData.map((el, index) => (
+                  <li className="tfg-tweets__tweet" key={index}>
+                    <span>{ el.text }</span> <i className="fas fa-share" onClick={() => {
+                      window.open(
+                        `https://www.twitter.com/${ el.user_screen_name }/status/${ el.id_str }`,
+                        '_blank' // <- This is what makes it open in a new window.
+                      );
+                    }}/>
+                  </li>
+              ))}
+            </ul>
           </div>
         </ReactModal>
     </div>

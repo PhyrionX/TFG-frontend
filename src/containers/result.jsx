@@ -6,9 +6,11 @@ import Table from '../components/commons/table';
 import { getSavedSearch, getSavedTweet } from '../services/twitterService';
 import DetailList from '../components/detail_list/detail-list';
 import TweetsAnalitycs from '../components/analitycs/tweets-analitycs';
+import Input from '../components/commons/input';
 
 export default function Result(props) {
   const [loading, setLoading] = useState(true);
+  const [compareMode, setCompareMode] = useState(false);
   const [savedSearch, setSavedSearch] = useState({});
   const [savedTweet, setSavedTweet] = useState({})
 
@@ -114,16 +116,30 @@ export default function Result(props) {
 
   console.log(savedTweet.tweets && savedTweet.tweets, savedTweet.state);
   
+  function handleCompare() {
+    setCompareMode(!compareMode);
+  }
+
   return loading ? 'Loading...' : (<div className="tfg-page-result">
-      <div className="tfg-page-result__result1">
-        <Card content={ (
-          <React.Fragment>
-            <img src={ savedSearch.profile_image_url } />
-            <h2>{ savedSearch.name }</h2>
-            <DetailList items={ itemsDetails } />
-          </React.Fragment>
-        ) }/>
-        <TweetsAnalitycs tweets={savedTweet} refreshTweetsData={ getTweetsData } />
+      <div className="tfg-page-result__navigation-bar">
+        <button className="btn btn-primary" onClick={handleCompare}>{ compareMode ? 'Cancel Compare' : 'Compare' }</button>
+      </div>
+      <div className={ compareMode ? 'tfg-page-result__results' : '' }>
+        <div className={ compareMode ? 'tfg-page-result__result1' : '' }>
+          <Card content={ (
+            <React.Fragment>
+              <img src={ savedSearch.profile_image_url } />
+              <h2>{ savedSearch.name }</h2>
+              <DetailList items={ itemsDetails } />
+            </React.Fragment>
+          ) }/>
+          <TweetsAnalitycs tweets={savedTweet} refreshTweetsData={ getTweetsData } />
+        </div>
+        {
+          compareMode && (<div className="tfg-page-result__result2">
+            <Input placeholder="Search twitter account..."/>
+          </div>)
+        }
       </div>
   </div>)
 }

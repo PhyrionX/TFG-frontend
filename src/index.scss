@@ -51,12 +51,6 @@ $width-login: 400px;
   }
 }
 
-.tfg-grid {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-
 .tfg-modal {
   &__heading {
     display: flex;
@@ -74,6 +68,46 @@ $width-login: 400px;
 }
 
 .tfg-tweets {
-  display: flex;
-  list-style-type:none;
+  list-style-type: none;
+
+  &__tweet {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+    &:hover {
+      background-color: #CEECF5;
+    }
+
+    i {
+      font-size: 24px;
+      width: 50px;
+      cursor: pointer;
+      text-align: center;
+
+      &:hover {
+        color: blue;
+      }
+    }
+  }
+}
+
+.tfg-page-result {
+  &__navigation-bar {
+    text-align: right;
+    margin-bottom: 10px;
+  }
+
+  &__results {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__result1 {
+    width: 49%;
+  }
+
+  &__result2 {
+    width: 49%;
+  }
 }

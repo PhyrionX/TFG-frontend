@@ -5,6 +5,7 @@ import { getSuggestions, getFriendTimeline } from '../services/twitterService';
 import Card from '../components/card/Card';
 import Input from '../components/commons/input';
 import InfoProfileCard from '../components/card/info-profile-card';
+import GridResults from '../components/grid-results/grid-results';
 
 const AT = 64;
 
@@ -42,13 +43,6 @@ export default function Dashboard() {
   return <React.Fragment>
       <Input placeholder="Search twitter account..." onKeyPress={handleOnKeyPress} />
 
-      {suggestions.length > 0 && (<div className="tfg-grid ">
-        {suggestions.map((suggest, index) => (
-          <InfoProfileCard infoProfileCard
-            onClick={() => handleGetInfoOfAcount(suggest.screen_name)}
-            key={index}
-            info={ suggest } />)
-        )}
-      </div>)}
+      <GridResults suggestions={ suggestions } onClick={ handleGetInfoOfAcount } />
   </React.Fragment>
 }
