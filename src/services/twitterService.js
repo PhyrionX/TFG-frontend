@@ -12,8 +12,8 @@ export function getSavedSearch(id) {
   return requestService.http.get('http://localhost:8081/api/twitter/saved_search/' + id);
 }
 
-export function getSavedTweet(id) {
-  return requestService.http.get('http://localhost:8081/api/twitter/saved_tweet/' + id);
+export function getAnalitycInfo(id) {
+  return requestService.http.get('http://localhost:8081/api/twitter/saved_analityc_info/' + id);
 }
 
 export function getHistory() {

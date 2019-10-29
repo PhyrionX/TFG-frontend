@@ -7,7 +7,7 @@ import Card from '../card/Card';
 import './tweets-analitycs.scss';
 import LabelledValueList from '../commons/labelled-value-list';
 
-export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
+export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, compare }) {
   const [widthOfCharts, setWidthOfCharts ] = useState(0);
   const [tweetsTimeChart, setTweetsTimeChart ] = useState('DAYS');
   const [tweetsTypeChart, setTweetsTypeChart ] = useState('LINE');
@@ -40,6 +40,10 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
   useLayoutEffect(() => {
     test_dimensions();
   }, []);
+  
+  useLayoutEffect(() => {
+    test_dimensions();
+  }, [compare]);
 
   // every time the window is resized, the timer is cleared and set again
   // the net effect is the component will only reset after the window size
@@ -49,154 +53,111 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
     clearInterval(movement_timer);
     movement_timer = setTimeout(test_dimensions, RESET_TIMEOUT);
   });
+
+  console.log(analitycInfo);
+  
+  const totalReplies = analitycInfo.replies ? analitycInfo.replies.reduce((acc, curr) => acc + curr.replies, 0) : 0;
   
   const items = [
     {
       key: 'tweet',
       title: 'Tweets',
-      value: tweets.tweets ? tweets.tweets.length : 0,
+      value: analitycInfo.ownPosts || 0,
       icon: 'fab fa-twitter'
     },
     {
       key: 'fav',
       title: 'Favourites',
-      value: tweets.favoritesTotal || 0,
+      value: analitycInfo.favoritesTotal || 0,
       icon: 'fas fa-heart'
     },
     {
       key: 'ret',
       title: 'Retweets',
-      value: tweets.retweetsTotal || 0,
+      value: analitycInfo.retweetsTotal || 0,
       icon:  'fas fa-retweet'
     },
     {
       key: 'rep',
       title: 'Replies',
-      value: tweets.repliesTotal || 0,
+      value: totalReplies,
       icon:  'fas fa-reply'
     },
     {
       key: 'men',
       title: 'Mentions',
-      value: tweets.userMentionsTotal || 0,
+      value: analitycInfo.userMentionsTotal || 0,
       icon:  'fas fa-at'
     },
     {
       key: 'hash',
       title: 'Hashtags',
-      value: tweets.hashtagsTotal || 0,
+      value: analitycInfo.hashtagsTotal || 0,
       icon:  'fas fa-hashtag'
     },
     {
       key: 'med',
       title: 'Media',
-      value: tweets.mediasTotal || 0,
+      value: analitycInfo.mediasTotal || 0,
       icon: 'fas fa-images'
     },
     {
       key: 'url',
       title: 'Urls',
-      value: tweets.urlsTotal || 0,
+      value: analitycInfo.urlsTotal || 0,
       icon: 'fas fa-link'
     }
   ]
-  
-   
-  const newTweetsPerDay = tweets.tweets && tweets.tweets.length > 0 ?
-      tweets.tweets.reduce((acc, curr) => {
-      const keyName = moment(new Date(curr.created_at)).format(tweetsTimeChart === 'DAYS' ? 'DD-MM-YY' : 'MM-YY');
-      
-      return acc.map((el) => el.name === keyName ? { 
-        ...el,
-        onlyText: !curr.entities.media && curr.entities.urls.length === 0 ? el.onlyText + 1 : el.onlyText,
-        textAndUrls: !curr.entities.media && curr.entities.urls.length > 0 ? el.textAndUrls + 1 : el.textAndUrls,
-        textAndMedia: curr.entities.media && curr.entities.urls.length === 0 ? el.textAndMedia + 1 : el.textAndMedia,
-        textUrlsAndMedia: curr.entities.media && curr.entities.urls.length > 0 ? el.textUrlsAndMedia + 1 : el.textUrlsAndMedia,
-        tweets: el.tweets + 1 } : el)
-    }, getArrayOfDatesBetween(tweets.tweets[tweets.tweets.length - 1].created_at, tweets.tweets[0].created_at))
-  : [];
-
-  function getArrayOfDatesBetween(startDate, endDate) {
-    let dates = [];
-    
-    let currDate = moment(new Date(startDate)).startOf(tweetsTimeChart === 'DAYS' ? 'day' : 'month');
-    let lastDate = moment(new Date(endDate)).startOf(tweetsTimeChart === 'DAYS' ? 'day' : 'month');
-
-    while(currDate.add(1, tweetsTimeChart === 'DAYS' ? 'days' : 'months').diff(lastDate) <= 0) {
-      dates.push({
-        name: currDate.format(tweetsTimeChart === 'DAYS' ? 'DD-MM-YY' : 'MM-YY'),
-        tweets: 0,
-        onlyText: 0,
-        textAndUrls: 0,
-        textAndMedia: 0,
-        textUrlsAndMedia: 0
-      });
-    }
-    
-    return dates.reverse()
-  }
-
-  const tweetsReplies = tweets.tweets ? tweets.tweets.filter((el) => el.replies)
-    .reduce((acc, curr) => {
-      return [...acc, curr.replies.reduce((acc, curr) => ({
-        ...acc,
-        score: curr.sentiment_score.score + acc.score,
-        positive: curr.sentiment_score.score > 0 ? acc.positive + 1 : acc.positive,
-        negative: curr.sentiment_score.score < 0 ? acc.negative + 1 : acc.negative,
-        neutral: curr.sentiment_score.score === 0 ? acc.neutral + 1 : acc.neutral
-        }), {score: 0, positive: 0, negative: 0, neutral: 0, numTweet: curr.id})];
-    }, []) : [];
-
 
   const itemsReplies = [
     {
       key: 'repl',
       title: 'Total Replies',
-      value: tweets.repliesTotal || 0,
+      value: totalReplies,
       icon:  'fas fa-reply'
     },
     {
       key: 'average',
       title: 'Average Replies',
-      value: tweetsReplies.length > 0 ? (tweets.repliesTotal / tweetsReplies.length).toFixed(2) : 0
+      value: analitycInfo.replies ? (totalReplies / analitycInfo.replies.length).toFixed(2) : 0
     },
     {
       key: 'reptwe',
       title: 'Tweet+Replies',
-      value: tweetsReplies.length
+      value: analitycInfo.replies ? analitycInfo.replies.length : 0,
     },
     {
       key: 'pos',
       title: 'Positives',
-      value: tweetsReplies.reduce((acc, curr) => curr.positive + acc, 0),
+      value: analitycInfo.replies ? analitycInfo.replies.reduce((acc, curr) => curr.positive + acc, 0) : 0,
       icon:  'fas fa-thumbs-up'
     },
     {
       key: 'neg',
       title: 'Negatives',
-      value: tweetsReplies.reduce((acc, curr) => curr.negative + acc, 0),
+      value: analitycInfo.replies ? analitycInfo.replies.reduce((acc, curr) => curr.negative + acc, 0) : 0,
       icon:  'fas fa-thumbs-down'
     },
     {
       key: 'neu',
       title: 'Neutral',
-      value: tweetsReplies.reduce((acc, curr) => curr.neutral + acc, 0),
+      value: analitycInfo.replies ? analitycInfo.replies.reduce((acc, curr) => curr.neutral + acc, 0) : 0,
       icon:  'fas fa-meh'
     },
     {
       key: 'scpos',
       title: 'Tw Score Positive',
-      value: tweetsReplies.filter(el => el.score > 0).length
+      value: analitycInfo.replies ? analitycInfo.replies.filter(el => el.score > 0).length : 0
     },
     {
       key: 'neu',
       title: 'Tw Score Neutral',
-      value: tweetsReplies.filter(el => el.score === 0).length
+      value: analitycInfo.replies ? analitycInfo.replies.filter(el => el.score === 0).length : 0
     },
     {
       key: 'neu',
       title: 'Tw Score Negative',
-      value: tweetsReplies.filter(el => el.score < 0).length
+      value: analitycInfo.replies ? analitycInfo.replies.filter(el => el.score < 0).length : 0
     },
   ]
 
@@ -223,12 +184,12 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
       <Card content={
         <div className="tfg-tweets-analitycs__main">
           <div className="tfg-tweets-analitycs__info-state">
-            { `Status of tweets: ${ tweets.state ? tweets.state : 'Loading...' }` }
+            { `Status of tweets: ${ analitycInfo.state ? analitycInfo.state : 'Loading...' }` }
             <i onClick={ refreshTweetsData } className="fas fa-sync-alt" />
           </div>
           <div>
-            <span>Analysis from <strong>{tweets.dateInit && tweets.dateEnd ? moment(new Date(tweets.dateInit)).format('Do MMM YY')
-            + " to " +  moment(new Date(tweets.dateEnd)).format('Do MMM YY') : "Loading" }</strong></span> 
+            <span>Analysis from <strong>{analitycInfo.dateInit && analitycInfo.dateEnd ? moment(new Date(analitycInfo.dateInit)).format('Do MMM YY')
+            + " to " +  moment(new Date(analitycInfo.dateEnd)).format('Do MMM YY') : "Loading" }</strong></span> 
           </div>
           <div>
             Replies only can be retrieve of the 7 days before of search
@@ -237,26 +198,25 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
       }/>
 
       {
-        tweets.tweets && <LabelledValueList items={ items } />   
+        analitycInfo.state && analitycInfo.state === 'Done' && (
+          <React.Fragment>
+            <LabelledValueList items={ items } />
+
+            <Card title="Users Mentions" content={ <TagCloud
+                minSize={12}
+                maxSize={35}
+                tags={ analitycInfo.userMentionsGrouped }
+                onClick={ handleMentions } /> } />
+            
+            <Card title="Hashtags" content={ <TagCloud
+                minSize={12}
+                maxSize={35}
+                tags={ analitycInfo.hashtagsGrouped }
+                onClick={ handleHashtags } /> } />
+          </React.Fragment>
+        )
       }
 
-      {tweets.tweets && (
-        <Card title="Users Mentions" content={ <TagCloud
-          minSize={12}
-          maxSize={35}
-          tags={ tweets.userMentionsGrouped }
-          onClick={ handleMentions }
-      /> } />) }
-
-      {tweets.tweets && (
-        <Card title="Hashtags" content={ <TagCloud
-          minSize={12}
-          maxSize={35}
-          tags={ tweets.hashtagsGrouped }
-          onClick={ handleHashtags }
-      /> } />) }
-
-      
       <Card title="Tweets in the time"
           content={ (
             <div ref={targetRef}>
@@ -289,7 +249,7 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
               {
                 tweetsTypeChart === 'LINE' ? (
                   <LineChart 
-                    width={ widthOfCharts } height={400} data={newTweetsPerDay} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                    width={ widthOfCharts } height={400} data={ analitycInfo.state && analitycInfo.state === 'Done' ? tweetsTimeChart === 'DAYS' ? analitycInfo.postsInDay : analitycInfo.postsInMonth : [] } margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                     <Line type="monotone" dataKey="tweets" stroke="#8884d8" />
                     <Line type="monotone" dataKey="onlyText" stroke="#00FF00" />
                     <Line type="monotone" dataKey="textAndUrls" stroke="#ff0000" />
@@ -305,7 +265,7 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
                   <BarChart
                       width={ widthOfCharts }
                       height={400}
-                      data={ newTweetsPerDay }
+                      data={ analitycInfo.state && analitycInfo.state === 'Done' ? tweetsTimeChart === 'DAYS' ? analitycInfo.postsInDay : analitycInfo.postsInMonth : [] }
                       margin={{
                         top: 5, right: 30, left: 20, bottom: 5,
                       }}
@@ -323,6 +283,7 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
                 )
               } 
           </div>) }/>
+      
 
       <Card title="Info replies" />
       
@@ -331,7 +292,7 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
             <BarChart
                 width={widthOfCharts}
                 height={400}
-                data={tweetsReplies}
+                data={analitycInfo.replies || []}
                 margin={{
                   top: 20, right: 30, left: 20, bottom: 5,
                 }}
@@ -348,7 +309,7 @@ export default function TweetsAnalitycs({ tweets, refreshTweetsData }) {
               </BarChart>
           )} />
 
-      { tweets.tweets && <LabelledValueList items={ itemsReplies } /> }
+      { analitycInfo.state && analitycInfo.state === 'Done' && <LabelledValueList items={ itemsReplies } /> }
       <ReactModal 
           isOpen={ showModal }
           contentLabel="Minimal Modal Example"
