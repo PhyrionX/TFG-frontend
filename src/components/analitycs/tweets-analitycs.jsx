@@ -6,13 +6,15 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, BarChart, Bar, L
 import Card from '../card/Card';
 import './tweets-analitycs.scss';
 import LabelledValueList from '../commons/labelled-value-list';
+import { getTweetsByMention, getTweetsByHashtag } from '../../services/twitterService';
 
-export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, compare }) {
+export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, itemsGeneral, itemsReplies, compare }) {
   const [widthOfCharts, setWidthOfCharts ] = useState(0);
   const [tweetsTimeChart, setTweetsTimeChart ] = useState('DAYS');
   const [tweetsTypeChart, setTweetsTypeChart ] = useState('LINE');
   const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState([{id: 1}, {id: 2}]);
+  const [modalData, setModalData] = useState([]);
+
   const targetRef = useRef();
   ReactModal.setAppElement('#index')
   // holds the timer for setTimeout and clearInterval
@@ -53,131 +55,27 @@ export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, compa
     clearInterval(movement_timer);
     movement_timer = setTimeout(test_dimensions, RESET_TIMEOUT);
   });
-
-  console.log(analitycInfo);
   
-  const totalReplies = analitycInfo.replies ? analitycInfo.replies.reduce((acc, curr) => acc + curr.replies, 0) : 0;
-  
-  const items = [
-    {
-      key: 'tweet',
-      title: 'Tweets',
-      value: analitycInfo.ownPosts || 0,
-      icon: 'fab fa-twitter'
-    },
-    {
-      key: 'fav',
-      title: 'Favourites',
-      value: analitycInfo.favoritesTotal || 0,
-      icon: 'fas fa-heart'
-    },
-    {
-      key: 'ret',
-      title: 'Retweets',
-      value: analitycInfo.retweetsTotal || 0,
-      icon:  'fas fa-retweet'
-    },
-    {
-      key: 'rep',
-      title: 'Replies',
-      value: totalReplies,
-      icon:  'fas fa-reply'
-    },
-    {
-      key: 'men',
-      title: 'Mentions',
-      value: analitycInfo.userMentionsTotal || 0,
-      icon:  'fas fa-at'
-    },
-    {
-      key: 'hash',
-      title: 'Hashtags',
-      value: analitycInfo.hashtagsTotal || 0,
-      icon:  'fas fa-hashtag'
-    },
-    {
-      key: 'med',
-      title: 'Media',
-      value: analitycInfo.mediasTotal || 0,
-      icon: 'fas fa-images'
-    },
-    {
-      key: 'url',
-      title: 'Urls',
-      value: analitycInfo.urlsTotal || 0,
-      icon: 'fas fa-link'
-    }
-  ]
-
-  const itemsReplies = [
-    {
-      key: 'repl',
-      title: 'Total Replies',
-      value: totalReplies,
-      icon:  'fas fa-reply'
-    },
-    {
-      key: 'average',
-      title: 'Average Replies',
-      value: analitycInfo.replies ? (totalReplies / analitycInfo.replies.length).toFixed(2) : 0
-    },
-    {
-      key: 'reptwe',
-      title: 'Tweet+Replies',
-      value: analitycInfo.replies ? analitycInfo.replies.length : 0,
-    },
-    {
-      key: 'pos',
-      title: 'Positives',
-      value: analitycInfo.replies ? analitycInfo.replies.reduce((acc, curr) => curr.positive + acc, 0) : 0,
-      icon:  'fas fa-thumbs-up'
-    },
-    {
-      key: 'neg',
-      title: 'Negatives',
-      value: analitycInfo.replies ? analitycInfo.replies.reduce((acc, curr) => curr.negative + acc, 0) : 0,
-      icon:  'fas fa-thumbs-down'
-    },
-    {
-      key: 'neu',
-      title: 'Neutral',
-      value: analitycInfo.replies ? analitycInfo.replies.reduce((acc, curr) => curr.neutral + acc, 0) : 0,
-      icon:  'fas fa-meh'
-    },
-    {
-      key: 'scpos',
-      title: 'Tw Score Positive',
-      value: analitycInfo.replies ? analitycInfo.replies.filter(el => el.score > 0).length : 0
-    },
-    {
-      key: 'neu',
-      title: 'Tw Score Neutral',
-      value: analitycInfo.replies ? analitycInfo.replies.filter(el => el.score === 0).length : 0
-    },
-    {
-      key: 'neu',
-      title: 'Tw Score Negative',
-      value: analitycInfo.replies ? analitycInfo.replies.filter(el => el.score < 0).length : 0
-    },
-  ]
-
   function handleMentions(mention) {
-    setModalData(tweets.tweets.filter((el) => 
-      el.entities.user_mentions.some(obj =>
-          obj.screen_name === mention.value)
-      ));
-
-    setShowModal(true);
+    console.log(mention, analitycInfo.id_of_analityc);
+    
+    getTweetsByMention(analitycInfo.id_of_analityc, mention.value)
+      .then(({data}) => {
+        setModalData(data);
+        setShowModal(true);
+      })
+      .catch((err) => console.log(err))
   }
 
   function handleHashtags(hashtag) {
-    setModalData(tweets.tweets.filter((el) => 
-      el.entities.hashtags.some(obj =>
-        obj.text === hashtag.value)
-    ));
-
-    setShowModal(true);
+    getTweetsByHashtag(analitycInfo.id_of_analityc, hashtag.value)
+    .then(({data}) => {
+      setModalData(data);
+      setShowModal(true);
+    })
+    .catch((err) => console.log(err))
   }
+
 
   return (
     <div className="tfg-tweets-analitycs">
@@ -200,7 +98,7 @@ export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, compa
       {
         analitycInfo.state && analitycInfo.state === 'Done' && (
           <React.Fragment>
-            <LabelledValueList items={ items } />
+            <LabelledValueList items={ itemsGeneral } />
 
             <Card title="Users Mentions" content={ <TagCloud
                 minSize={12}

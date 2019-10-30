@@ -13,7 +13,9 @@ export default function Result(props) {
   const [compareMode, setCompareMode] = useState(false);
   const [savedSearch, setSavedSearch] = useState({});
   // const [savedTweet, setSavedTweet] = useState({})
-  const [savedAnalitycInfo, setSavedAnalitycInfo] = useState({})
+  const [savedAnalitycInfo, setSavedAnalitycInfo] = useState({});
+  const [itemsGeneral, setItemsGeneral] = useState([]);
+  const [itemsReplies, setItemsReplies] = useState([]);
 
   useEffect(() => {
     getSavedSearch(props.match.params.idSearch)
@@ -32,6 +34,111 @@ export default function Result(props) {
     getAnalitycInfo(props.match.params.idSearch)
       .then(({data}) => {
         setSavedAnalitycInfo(data);
+
+        const totalReplies = data.replies ? data.replies.reduce((acc, curr) => acc + curr.replies, 0) : 0;
+
+        setItemsGeneral([
+          {
+            key: 'tweet',
+            title: 'Tweets',
+            value: data.ownPosts || 0,
+            icon: 'fab fa-twitter'
+          },
+          {
+            key: 'fav',
+            title: 'Favourites',
+            value: data.favoritesTotal || 0,
+            icon: 'fas fa-heart'
+          },
+          {
+            key: 'ret',
+            title: 'Retweets',
+            value: data.retweetsTotal || 0,
+            icon:  'fas fa-retweet'
+          },
+          {
+            key: 'rep',
+            title: 'Replies',
+            value: totalReplies,
+            icon:  'fas fa-reply'
+          },
+          {
+            key: 'men',
+            title: 'Mentions',
+            value: data.userMentionsTotal || 0,
+            icon:  'fas fa-at'
+          },
+          {
+            key: 'hash',
+            title: 'Hashtags',
+            value: data.hashtagsTotal || 0,
+            icon:  'fas fa-hashtag'
+          },
+          {
+            key: 'med',
+            title: 'Media',
+            value: data.mediasTotal || 0,
+            icon: 'fas fa-images'
+          },
+          {
+            key: 'url',
+            title: 'Urls',
+            value: data.urlsTotal || 0,
+            icon: 'fas fa-link'
+          }
+        ])
+
+        setItemsReplies([
+          {
+            key: 'repl',
+            title: 'Total Replies',
+            value: totalReplies,
+            icon:  'fas fa-reply'
+          },
+          {
+            key: 'average',
+            title: 'Average Replies',
+            value: data.replies ? (totalReplies / data.replies.length).toFixed(2) : 0
+          },
+          {
+            key: 'reptwe',
+            title: 'Tweet+Replies',
+            value: data.replies ? data.replies.length : 0,
+          },
+          {
+            key: 'pos',
+            title: 'Positives',
+            value: data.replies ? data.replies.reduce((acc, curr) => curr.positive + acc, 0) : 0,
+            icon:  'fas fa-thumbs-up'
+          },
+          {
+            key: 'neg',
+            title: 'Negatives',
+            value: data.replies ? data.replies.reduce((acc, curr) => curr.negative + acc, 0) : 0,
+            icon:  'fas fa-thumbs-down'
+          },
+          {
+            key: 'neu',
+            title: 'Neutral',
+            value: data.replies ? data.replies.reduce((acc, curr) => curr.neutral + acc, 0) : 0,
+            icon:  'fas fa-meh'
+          },
+          {
+            key: 'scpos',
+            title: 'Tw Score Positive',
+            value: data.replies ? data.replies.filter(el => el.score > 0).length : 0
+          },
+          {
+            key: 'neu',
+            title: 'Tw Score Neutral',
+            value: data.replies ? data.replies.filter(el => el.score === 0).length : 0
+          },
+          {
+            key: 'neu',
+            title: 'Tw Score Negative',
+            value: data.replies ? data.replies.filter(el => el.score < 0).length : 0
+          },
+        ])
       })
       .catch((err) => console.error(err));
   }
@@ -85,7 +192,11 @@ export default function Result(props) {
               <DetailList items={ itemsDetails } />
             </React.Fragment>
           ) }/>
-          <TweetsAnalitycs analitycInfo={ savedAnalitycInfo } refreshTweetsData={ getAnalitycInfoData } compare={ compareMode }/>
+          <TweetsAnalitycs analitycInfo={ savedAnalitycInfo }
+              refreshTweetsData={ getAnalitycInfoData }
+              itemsGeneral={ itemsGeneral }
+              itemsReplies={ itemsReplies }
+              compare={ compareMode }/>
         </div>
         {
           compareMode && (<div className="tfg-page-result__result2">

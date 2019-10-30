@@ -16,6 +16,14 @@ export function getAnalitycInfo(id) {
   return requestService.http.get('http://localhost:8081/api/twitter/saved_analityc_info/' + id);
 }
 
+export function getTweetsByMention(id, mention) {
+  return requestService.http.get('http://localhost:8081/api/twitter/getTweetsByMention/' + id + '/' + mention);
+}
+
+export function getTweetsByHashtag(id, hashtag) {
+  return requestService.http.get('http://localhost:8081/api/twitter/getTweetsByHashtag/' + id + '/' + hashtag);
+}
+
 export function getHistory() {
   return requestService.http.get('http://localhost:8081/api/history');
 }
