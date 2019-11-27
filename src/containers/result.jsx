@@ -11,11 +11,16 @@ import Input from '../components/commons/input';
 export default function Result(props) {
   const [loading, setLoading] = useState(true);
   const [compareMode, setCompareMode] = useState(false);
-  const [savedSearch, setSavedSearch] = useState({});
   // const [savedTweet, setSavedTweet] = useState({})
+  const [savedSearch, setSavedSearch] = useState({});
   const [savedAnalitycInfo, setSavedAnalitycInfo] = useState({});
   const [itemsGeneral, setItemsGeneral] = useState([]);
   const [itemsReplies, setItemsReplies] = useState([]);
+
+  const [savedSearch2, setSavedSearch2] = useState({});
+  const [savedAnalitycInfo2, setSavedAnalitycInfo2] = useState({});
+  const [itemsGeneral2, setItemsGeneral2] = useState([]);
+  const [itemsReplies2, setItemsReplies2] = useState([]);
 
   useEffect(() => {
     getSavedSearch(props.match.params.idSearch)
@@ -25,24 +30,29 @@ export default function Result(props) {
       })
       .catch((err) => console.error(err));
       
-    getAnalitycInfoData();
+    getAnalitycInfoData(true);
   }, []);
     
-  function getAnalitycInfoData() {
-    setSavedAnalitycInfo({});
+  function getAnalitycInfoData(original, id) {
+    original ? setSavedAnalitycInfo({}) : setSavedAnalitycInfo2({});
 
-    getAnalitycInfo(props.match.params.idSearch)
+    getAnalitycInfo(original ? props.match.params.idSearch : id)
       .then(({data}) => {
-        setSavedAnalitycInfo(data);
+        original ? setSavedAnalitycInfo(data) : setSavedAnalitycInfo2(data);
 
         const totalReplies = data.replies ? data.replies.reduce((acc, curr) => acc + curr.replies, 0) : 0;
 
-        setItemsGeneral([
+        const dataGeneral = [
           {
             key: 'tweet',
             title: 'Tweets',
             value: data.ownPosts || 0,
             icon: 'fab fa-twitter'
+          },
+          {
+            key: 'shared',
+            title: 'Shared',
+            value: data.sharePosts || 0,
           },
           {
             key: 'fav',
@@ -86,9 +96,9 @@ export default function Result(props) {
             value: data.urlsTotal || 0,
             icon: 'fas fa-link'
           }
-        ])
+        ]
 
-        setItemsReplies([
+        const infoReplies = [
           {
             key: 'repl',
             title: 'Total Replies',
@@ -138,7 +148,11 @@ export default function Result(props) {
             title: 'Tw Score Negative',
             value: data.replies ? data.replies.filter(el => el.score < 0).length : 0
           },
-        ])
+        ]
+
+        original ? setItemsGeneral(dataGeneral) : setItemsGeneral2(dataGeneral);
+        original ? setItemsReplies(infoReplies) : setItemsReplies2(infoReplies);
+        
       })
       .catch((err) => console.error(err));
   }
@@ -174,9 +188,48 @@ export default function Result(props) {
     }
     
   ];
+
+  const itemsDetails2 = [
+    {
+      key: "Screen Name",
+      value: savedSearch2.screen_name
+    },
+    {
+      key: "Location",
+      value: savedSearch2.location
+    },
+    {
+      key: "User Searcher",
+      value: savedSearch2.user_searcher
+    },
+    {
+      key: "Description",
+      value: savedSearch2.description
+    },
+    {
+      key: "Followers",
+      value: savedSearch2.followers_count
+    },
+    {
+      key: "Follow",
+      value: savedSearch2.friends_count
+    },
+    {
+      key: "Tweets",
+      value: savedSearch2.statuses_count
+    }
+    
+  ];
   
   function handleCompare() {
     setCompareMode(!compareMode);
+    getSavedSearch('5dddacce712e7c3838bef61a')
+      .then(({data}) => {
+        setSavedSearch2(data);
+        setLoading(false);
+      })
+      .catch((err) => console.error(err));
+      getAnalitycInfoData(false, '5dddacce712e7c3838bef61a')
   }
 
   return loading ? 'Loading...' : (<div className="tfg-page-result">
@@ -200,7 +253,18 @@ export default function Result(props) {
         </div>
         {
           compareMode && (<div className="tfg-page-result__result2">
-            <Input placeholder="Search twitter account..."/>
+            <Card content={ (
+            <React.Fragment>
+              <img src={ savedSearch2.profile_image_url } />
+              <h2>{ savedSearch2.name }</h2>
+              <DetailList items={ itemsDetails2 } />
+            </React.Fragment>
+          ) }/>
+          <TweetsAnalitycs analitycInfo={ savedAnalitycInfo2 }
+              refreshTweetsData={ getAnalitycInfoData }
+              itemsGeneral={ itemsGeneral2 }
+              itemsReplies={ itemsReplies2 }
+              compare={ compareMode }/>
           </div>)
         }
       </div>
