@@ -13,6 +13,9 @@ export default function LabelledValueList({ items }) {
             <div className="tfg-labelled-value-list__value">
               { item.value }
             </div>
+            { item.compare && (<div className="tfg-labelled-value-list__diff--pos">
+            {item.diff}
+            </div>)}
           </div>
           {
             item.icon && <i className={ item.icon } />
