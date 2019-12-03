@@ -15,11 +15,13 @@ export default function Result(props) {
   const [savedSearch, setSavedSearch] = useState({});
   const [savedAnalitycInfo, setSavedAnalitycInfo] = useState({});
   const [itemsGeneral, setItemsGeneral] = useState([]);
+  const [infoTotals, setInfoTotals] = useState([]);
   const [itemsReplies, setItemsReplies] = useState([]);
 
   const [savedSearch2, setSavedSearch2] = useState({});
   const [savedAnalitycInfo2, setSavedAnalitycInfo2] = useState({});
   const [itemsGeneral2, setItemsGeneral2] = useState([]);
+  const [infoTotals2, setInfoTotals2] = useState([]);
   const [itemsReplies2, setItemsReplies2] = useState([]);
 
   useEffect(() => {
@@ -41,13 +43,14 @@ export default function Result(props) {
         original ? setSavedAnalitycInfo(data) : setSavedAnalitycInfo2(data);
 
         const totalReplies = data.replies ? data.replies.reduce((acc, curr) => acc + curr.replies, 0) : 0;
-
+        
         const dataGeneral = [
           {
             key: 'tweet',
             title: 'Tweets',
             value: data.ownPosts || 0,
-            icon: 'fab fa-twitter'
+            icon: 'fab fa-twitter',
+
           },
           {
             key: 'shared',
@@ -150,6 +153,51 @@ export default function Result(props) {
           },
         ]
 
+        const infot = [
+          {
+            key: 'repl',
+            title: 'Only Text',
+            value: data.totals ? data.totals.onlyText : 0
+          },
+          {
+            key: 'average',
+            title: 'Only Image',
+            value: data.totals ? data.totals.onlyImage : 0
+          },
+          {
+            key: 'reptwe',
+            title: 'Text and Image',
+            value: data.totals ? data.totals.textAndImage : 0
+          },
+          {
+            key: 'pos',
+            title: 'Text, Image and URL',
+            value: data.totals ? data.totals.textAndImageAndUrl : 0
+          },
+          {
+            key: 'neg',
+            title: 'Only Video',
+            value: data.totals ? data.totals.onlyVideo : 0
+          },
+          {
+            key: 'neu',
+            title: 'Text and Video',
+            value: data.totals ? data.totals.textAndVideo : 0
+          },
+          {
+            key: 'scpos',
+            title: 'Text, Video and URL',
+            value: data.totals ? data.totals.textAndVideoAndUrl : 0
+          },
+          {
+            key: 'neu',
+            title: 'Text and URL',
+            value: data.totals ? data.totals.textAndUrls : 0
+          }
+        ];
+
+        
+        original ? setInfoTotals(infot) : setInfoTotals2(infot);
         original ? setItemsGeneral(dataGeneral) : setItemsGeneral2(dataGeneral);
         original ? setItemsReplies(infoReplies) : setItemsReplies2(infoReplies);
         
@@ -231,6 +279,7 @@ export default function Result(props) {
       .catch((err) => console.error(err));
       getAnalitycInfoData(false, '5dddacce712e7c3838bef61a')
   }
+  
 
   return loading ? 'Loading...' : (<div className="tfg-page-result">
       <div className="tfg-page-result__navigation-bar">
@@ -249,6 +298,7 @@ export default function Result(props) {
               refreshTweetsData={ getAnalitycInfoData }
               itemsGeneral={ itemsGeneral }
               itemsReplies={ itemsReplies }
+              infoTotals={ infoTotals }
               compare={ compareMode }/>
         </div>
         {
@@ -263,6 +313,7 @@ export default function Result(props) {
           <TweetsAnalitycs analitycInfo={ savedAnalitycInfo2 }
               refreshTweetsData={ getAnalitycInfoData }
               itemsGeneral={ itemsGeneral2 }
+              infoTotals={ infoTotals2 }
               itemsReplies={ itemsReplies2 }
               compare={ compareMode }/>
           </div>)

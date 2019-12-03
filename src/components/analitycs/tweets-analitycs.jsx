@@ -8,7 +8,7 @@ import './tweets-analitycs.scss';
 import LabelledValueList from '../commons/labelled-value-list';
 import { getTweetsByMention, getTweetsByHashtag } from '../../services/twitterService';
 
-export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, itemsGeneral, itemsReplies, compare }) {
+export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, itemsGeneral, itemsReplies, infoTotals, compare }) {
   const [widthOfCharts, setWidthOfCharts ] = useState(0);
   const [tweetsTimeChart, setTweetsTimeChart ] = useState('DAYS');
   const [tweetsTypeChart, setTweetsTypeChart ] = useState('LINE');
@@ -150,9 +150,13 @@ export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, items
                     width={ widthOfCharts } height={400} data={ analitycInfo.state && analitycInfo.state === 'Done' ? tweetsTimeChart === 'DAYS' ? analitycInfo.postsInDay : analitycInfo.postsInMonth : [] } margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                     <Line type="monotone" dataKey="tweets" stroke="#8884d8" />
                     <Line type="monotone" dataKey="onlyText" stroke="#00FF00" />
-                    <Line type="monotone" dataKey="textAndUrls" stroke="#ff0000" />
-                    <Line type="monotone" dataKey="textAndMedia" stroke="#ff00ff" />
-                    <Line type="monotone" dataKey="textUrlsAndMedia" stroke="#00ffff" />
+                    <Line type="monotone" dataKey="onlyImage" stroke="#ff0000" />
+                    <Line type="monotone" dataKey="textAndImage" stroke="#ff00ff" />
+                    <Line type="monotone" dataKey="textAndImageAndUrl" stroke="#00ffff" />
+                    <Line type="monotone" dataKey="onlyVideo" stroke="#FFAAFF" />
+                    <Line type="monotone" dataKey="textAndVideo" stroke="#120012" />
+                    <Line type="monotone" dataKey="textAndVideoAndUrl" stroke="#AA00ff" />
+                    <Line type="monotone" dataKey="textAndUrls" stroke="#00AAAA" />
                     <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                     <XAxis dataKey="name" />
                     <YAxis />
@@ -171,16 +175,23 @@ export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, items
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
+                      <Legend />
                       <Tooltip />
                       <Bar dataKey="tweets" fill="#8884d8" />
                       <Bar dataKey="onlyText" fill="#00FF00" />
-                      <Bar dataKey="textAndUrls" fill="#ff0000" />
-                      <Bar dataKey="textAndMedia" fill="#ff00ff" />
-                      <Bar dataKey="textUrlsAndMedia" fill="#00ffff" />
+                      <Bar dataKey="onlyImage" fill="#ff0000" />
+                      <Bar dataKey="textAndImage" fill="#ff00ff" />
+                      <Bar dataKey="textAndImageAndUrl" fill="#00ffff" />
+                      <Bar dataKey="onlyVideo" fill="#FFAAFF" />
+                      <Bar dataKey="textAndVideo" fill="#120012" />
+                      <Bar dataKey="textAndVideoAndUrl" fill="#AA00ff" />
+                      <Bar dataKey="textAndUrls" fill="#00AAAA" />
                     </BarChart>
                 )
               } 
           </div>) }/>
+
+          <LabelledValueList items={ infoTotals } />
       
 
       <Card title="Info replies" />
