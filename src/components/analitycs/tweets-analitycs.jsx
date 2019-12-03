@@ -89,9 +89,9 @@ export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, items
             <span>Analysis from <strong>{analitycInfo.dateInit && analitycInfo.dateEnd ? moment(new Date(analitycInfo.dateInit)).format('Do MMM YY')
             + " to " +  moment(new Date(analitycInfo.dateEnd)).format('Do MMM YY') : "Loading" }</strong></span> 
           </div>
-          <div>
+          {/* <div>
             Replies only can be retrieve of the 7 days before of search
-          </div>
+          </div> */}
         </div>
       }/>
 

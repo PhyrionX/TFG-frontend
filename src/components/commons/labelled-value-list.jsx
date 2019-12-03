@@ -13,8 +13,8 @@ export default function LabelledValueList({ items }) {
             <div className="tfg-labelled-value-list__value">
               { item.value }
             </div>
-            { item.diff !== null && (<div className="tfg-labelled-value-list__diff--pos">
-            {item.diff}
+            { item.diff !== null && (<div className={ `tfg-labelled-value-list__diff${ item.diff === 0 ? '' : item.diff > 0 ? '--pos' : '--neg'}` }>
+              { item.diff > 0 ? '+' : ''}{ item.diff }
             </div>)}
           </div>
           {

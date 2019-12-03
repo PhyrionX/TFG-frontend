@@ -16,7 +16,7 @@ export default function Configuration() {
   }, []);
 
   return <div className="page-configuration">
-    <Card title="Text title" content={ (
+    <Card title="Configuration" content={ (
       <React.Fragment>
         <form method="post"action="http://localhost:8081/auth/twitter">
           <input type="hidden" name="user" value={ user } />

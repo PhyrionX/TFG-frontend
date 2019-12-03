@@ -8,12 +8,12 @@ export default function History() {
 
   useEffect(() => {
     getHistory()
-      .then(({data}) => setHistory(data))
+      .then(({data}) => setHistory(data.reverse()))
       .catch((err) => console.log(err));
   },[])
 
   return <React.Fragment>
-    <Card title="Text title" content={ 
+    <Card title="History" content={ 
       <Table columns={
           [
             {
