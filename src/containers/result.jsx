@@ -218,10 +218,6 @@ export default function Result(props) {
       value: savedSearch.location
     },
     {
-      key: "User Searcher",
-      value: savedSearch.user_searcher
-    },
-    {
       key: "Description",
       value: savedSearch.description
     },
@@ -251,10 +247,6 @@ export default function Result(props) {
     {
       key: "Location",
       value: savedSearch2.location
-    },
-    {
-      key: "User Searcher",
-      value: savedSearch2.user_searcher
     },
     {
       key: "Description",

@@ -83,7 +83,9 @@ export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, items
         <div className="tfg-tweets-analitycs__main">
           <div className="tfg-tweets-analitycs__info-state">
             { `Status of tweets: ${ analitycInfo.state ? analitycInfo.state : 'Loading...' }` }
-            <i onClick={ refreshTweetsData } className="fas fa-sync-alt" />
+            <div>
+              <a href={ `http://localhost:8081/${ analitycInfo.id_of_analityc }.txt` } target="blank">Generate metrics file</a>&nbsp;&nbsp;&nbsp;<i onClick={ refreshTweetsData } className="fas fa-sync-alt" />
+            </div>
           </div>
           <div>
             <span>Analysis from <strong>{analitycInfo.dateInit && analitycInfo.dateEnd ? moment(new Date(analitycInfo.dateInit)).format('Do MMM YY')
