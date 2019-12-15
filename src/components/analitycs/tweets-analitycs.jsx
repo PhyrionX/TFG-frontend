@@ -194,6 +194,80 @@ export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, items
           </div>) }/>
 
           <LabelledValueList items={ infoTotals } />
+
+          <Card title="Favorites and retweets"
+          content={ (
+            <div ref={targetRef}>
+              <div className="tfg-tweets-analitycs__chart-buttons">
+                <div className="btn-group btn-group-toggle">
+                  <label style={{ zIndex: 0 }}
+                      className={ `btn btn-secondary ${ tweetsTimeChart === 'DAYS' ? 'active' : '' }` }
+                      onClick={ () => setTweetsTimeChart('DAYS') }>
+                    <input type="radio" checked  onChange={() => {}}/> Days
+                  </label>
+                  <label style={{ zIndex: 0 }}
+                      className={ `btn btn-secondary ${ tweetsTimeChart === 'MONTHS' ? 'active' : '' }` }
+                      onClick={ () => setTweetsTimeChart('MONTHS') }>
+                    <input type="radio" name="options" id="option2" onChange={() => {}}/> Months
+                  </label>
+                </div>
+                <div className="btn-group btn-group-toggle">
+                  <label style={{ zIndex: 0 }}
+                      className={ `btn btn-secondary ${ tweetsTypeChart === 'LINE' ? 'active' : '' }` }
+                      onClick={ () => setTweetsTypeChart('LINE') }>
+                    <input type="radio" checked onChange={() => {}}/> Line
+                  </label>
+                  <label style={{ zIndex: 0 }}
+                      className={ `btn btn-secondary ${ tweetsTypeChart === 'BAR' ? 'active' : '' }` }
+                      onClick={ () => setTweetsTypeChart('BAR') }>
+                    <input type="radio" name="options" id="option2" onChange={() => {}}/> Bar
+                  </label>
+                </div>
+              </div>
+              {
+                tweetsTypeChart === 'LINE' ? (
+                  <LineChart 
+                    width={ widthOfCharts } height={400} data={ analitycInfo.state && (analitycInfo.state === 'Done' ? tweetsTimeChart === 'DAYS' ? analitycInfo.postsInDay : analitycInfo.postsInMonth : []).map((el) => ({
+                      ...el,
+                      averageFavorites: el.tweets ? el.favorites / el.tweets : 0,
+                      averageRetweets: el.tweets ? el.retweets / el.tweets : 0
+                    })) } margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                    <Line type="monotone" dataKey="favorites" stroke="#8884d8" />
+                    <Line type="monotone" dataKey="retweets" stroke="#00FF00" />
+                    <Line type="monotone" dataKey="averageFavorites" stroke="#ff0000" />
+                    <Line type="monotone" dataKey="averageRetweets" stroke="#00ffff" />
+                    <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Legend />
+                    <Tooltip />
+                  </LineChart>
+                ) : (
+                  <BarChart
+                      width={ widthOfCharts }
+                      height={400}
+                      data={ analitycInfo.state && (analitycInfo.state === 'Done' ? tweetsTimeChart === 'DAYS' ? analitycInfo.postsInDay : analitycInfo.postsInMonth : []).map((el) => ({
+                        ...el,
+                        averageFavorites: el.tweets ? el.favorites / el.tweets : 0,
+                        averageRetweets: el.tweets ? el.retweets / el.tweets : 0
+                      })) }
+                      margin={{
+                        top: 5, right: 30, left: 20, bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Legend />
+                      <Tooltip />
+                      <Bar dataKey="favorites" fill="#8884d8" />
+                      <Bar dataKey="retweets" fill="#00FF00" />
+                      <Bar dataKey="averageFavorites" fill="#ff0000" />
+                      <Bar dataKey="averageRetweets" fill="#00ffff" />
+                    </BarChart>
+                )
+              } 
+          </div>) }/>
       
 
       <Card title="Info replies" />
