@@ -195,7 +195,7 @@ export default function TweetsAnalitycs({ analitycInfo, refreshTweetsData, items
 
           <LabelledValueList items={ infoTotals } />
 
-          <Card title="Favorites and retweetsa"
+          <Card title="Favorites and retweets"
           content={ (
             <div ref={targetRef}>
               <div className="tfg-tweets-analitycs__chart-buttons">
