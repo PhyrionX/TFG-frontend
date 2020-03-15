@@ -20,7 +20,7 @@ export default function Configuration() {
       <React.Fragment>
         <form method="post"action="http://localhost:8081/auth/twitter">
           <input type="hidden" name="user" value={ user } />
-          <button type="submit" className="btn btn-primary pull-right" >Login with Twitter</button>
+          <button type="submit" className="btn btn-primary pull-right" >Login with Twitter test</button>
         </form>
         <br />
         <Table columns={
