@@ -1,9 +1,10 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Build') {
             steps {
+                checkout scm
                  sh 'echo $GIT_BRANCH'
                  sh 'node --version'
                 echo 'Building..'
