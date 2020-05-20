@@ -5,6 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 checkout scm
+                sh 'ls'
                  sh 'echo $GIT_BRANCH'
                  sh 'node --version'
                 echo 'Building..'
