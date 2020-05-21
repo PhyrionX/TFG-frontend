@@ -1,6 +1,4 @@
 pipeline {
-	agent any
-
 	agent {
 			docker { image '12.16.3-alpine3.9' }
 	}
