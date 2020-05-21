@@ -1,11 +1,7 @@
 pipeline {
-	agent {
-			docker { 
-				image 'node:12.16.3-alpine3.9'
-				args '--tmpfs /.config'
-			}
-	}
-
+	agent any
+  tools {nodejs "latest"}
+	
 	stages {
 		stage('SCM') {
 			steps {
