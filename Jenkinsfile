@@ -1,7 +1,5 @@
 pipeline {
-	agent {
-		docker { image 'node:12.16.3-alpine3.10' }
-	}
+	agent any
 
 	stages {
 		stage('SCM') {
@@ -11,25 +9,25 @@ pipeline {
 				sh 'echo $GIT_COMMIT'
 			}
 		}
-		stage('Setup') {
+		// stage('Setup') {
 
-			environment {
-				HOME = '.'
-			}
-			steps {
-				sh 'npm install'
-			}
-		}
-		stage('Build') {
-			steps {
-				sh 'npm run build'
-			}
-		}
-		stage('Test') {
-			steps {
-				echo 'Testing..'
-			}
-		}
+		// 	environment {
+		// 		HOME = '.'
+		// 	}
+		// 	steps {
+		// 		sh 'npm install'
+		// 	}
+		// }
+		// stage('Build') {
+		// 	steps {
+		// 		sh 'npm run build'
+		// 	}
+		// }
+		// stage('Test') {
+		// 	steps {
+		// 		echo 'Testing..'
+		// 	}
+		// }
 		stage('Deploy') {
 			steps {
 				echo 'Deploying....'
