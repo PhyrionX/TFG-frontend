@@ -6,10 +6,6 @@ pipeline {
 			}
 	}
 
-	environment {
-		HOME = '.'
-	}
-
 	stages {
 		stage('SCM') {
 			steps {
@@ -19,6 +15,9 @@ pipeline {
 			}
 		}
 		stage('Setup') {
+			environment {
+				HOME = '.'
+			}
 			steps {
 				sh 'npm install'
 			}
