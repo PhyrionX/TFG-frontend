@@ -1,6 +1,6 @@
 pipeline {
 	agent {
-		docker { image 'node:7-alpine' }
+		docker { image 'node:12.16.3-alpine3.10' }
 	}
 
 	stages {
@@ -12,7 +12,7 @@ pipeline {
 			}
 		}
 		stage('Setup') {
-			
+
 			environment {
 				HOME = '.'
 			}
