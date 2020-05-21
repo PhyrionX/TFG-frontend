@@ -1,7 +1,9 @@
 pipeline {
 	agent any
 
-	tools {nodejs "node"}
+	agent {
+			docker { image '12.16.3-alpine3.9' }
+	}
 
 	stages {
 		stage('SCM') {
