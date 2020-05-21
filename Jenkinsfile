@@ -1,7 +1,6 @@
 pipeline {
 	agent any
-  tools {nodejs "latest"}
-	
+
 	stages {
 		stage('SCM') {
 			steps {
