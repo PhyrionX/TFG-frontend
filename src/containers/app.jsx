@@ -96,7 +96,7 @@ export const App = props => {
   }
 
   return (
-      <Route>
+      <Router>
         {
           !auth ? (
             <React.Fragment>
