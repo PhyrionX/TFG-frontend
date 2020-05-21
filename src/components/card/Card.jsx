@@ -1,5 +1,5 @@
 import React from 'react';
-import './card.scss';
+import './Card.scss';
 
 export default function Card({ title, content, infoProfileCard, onClick }) {
   return (

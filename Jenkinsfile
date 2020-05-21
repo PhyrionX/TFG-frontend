@@ -10,6 +10,8 @@ pipeline {
                 sh 'echo $GIT_BRANCH'
                 sh 'node --version'
                 echo 'Building..'
+
+                sh 'docker build -t  phyrion/tfg:latest .'
             }
         }
         stage('Test') {
