@@ -3,6 +3,10 @@ pipeline {
 			docker { image 'node:12.16.3-alpine3.9' }
 	}
 
+	environment {
+		HOME = '.'
+	}
+
 	stages {
 		stage('SCM') {
 			steps {
