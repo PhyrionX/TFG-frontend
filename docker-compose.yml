@@ -4,9 +4,9 @@ services:
 
   sample:
     container_name: sample
+    image: "phyrion/tfg:latest"
     build:
       context: .
-      dockerfile: dockerfile
     volumes:
       - '.:/app'
       - '/app/node_modules'

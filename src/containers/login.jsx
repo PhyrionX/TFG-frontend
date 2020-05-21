@@ -49,7 +49,7 @@ export default function Login() {
   return (
     <div className="tfg-login-page">
       <form className="tfg-login">
-        <Input label="email"
+        <Input label="email2"
             type="text"
             value={ loginForm.email }
             id="email"

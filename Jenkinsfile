@@ -12,6 +12,7 @@ pipeline {
                 echo 'Building..'
 
                 sh 'docker build -t  phyrion/tfg:latest .'
+                sh 'docker-compose up --force-recreate -d'
             }
         }
         stage('Test') {
