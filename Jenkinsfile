@@ -12,6 +12,7 @@ pipeline {
 			}
 		}
 		stage('Setup') {
+			
 			environment {
 				HOME = '.'
 			}
