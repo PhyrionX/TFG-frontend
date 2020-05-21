@@ -9,9 +9,14 @@ pipeline {
 				sh 'echo $GIT_COMMIT'
 			}
 		}
+		stage('Setup') {
+			steps {
+				sh 'npm install'
+			}
+		}
 		stage('Build') {
 			steps {
-				echo 'build'
+				sh 'npm run build'
 			}
 		}
 		stage('Test') {
