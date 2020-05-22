@@ -4,7 +4,6 @@ const { rules: fileRules } = require('build-tools-webpack-files');
 
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html",
-  baseUrl: "social",
   filename: "./index.html"
 });
 
