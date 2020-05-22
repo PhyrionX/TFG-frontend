@@ -2,31 +2,34 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { rules: scssRules, plugin: extractPlugin } = require('build-tools-webpack-sass/extract');
 const { rules: fileRules } = require('build-tools-webpack-files');
 
-const htmlPlugin = new HtmlWebPackPlugin({
-  template: "./src/index.html",
-  filename: "./index.html"
-});
-
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
+module.exports = (env, options) => {
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader"
+          }
+        },
+        ...scssRules,
+        ...fileRules,
+        {
+          test: /\.css$/,
+          use: [ 'style-loader', 'css-loader' ]
         }
-      },
-      ...scssRules,
-      ...fileRules,
-      {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      }
+      ]
+    },
+    resolve: {
+      extensions: [ '.js', '.jsx' ]
+    },
+    plugins: [
+      new HtmlWebPackPlugin({
+        template: "./src/index.ejs",
+        filename: "./index.html",
+        baseUrl: options.mode == 'development'?'/':'/social/'
+      })
     ]
-  },
-  resolve: {
-    extensions: [ '.js', '.jsx' ]
-  },
-  plugins: [htmlPlugin]
+  }
 };
